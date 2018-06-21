@@ -7,6 +7,8 @@ push int32(33)	 	      				      ; just a comment
 
 add 
 
+add ; comment
+
 push float(44.55) ; just a comment
 
 mul;
@@ -19,5 +21,7 @@ dump
 pop
 
 assert double(42.42)
+assert double(42.42) ; comment
+
 
 exit

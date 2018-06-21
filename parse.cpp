@@ -1,5 +1,6 @@
 #include "parse.hpp"
-
+#include "Exceptions.hpp"
+bool FILE_CHECKED = false;
 
 std::string trim(std::string &str)
 {
@@ -27,175 +28,61 @@ std::vector<std::string>	strsplit(std::string &line, char delem)
 	return (words);
 }
 
-void	readFile(std::string fileName)
+void	readFile_1(std::string fileName)
 {
 	std::ifstream ifs;
 	std::string line;
 	std::vector<std::string> words;
-
+	std::stringstream errors;
+	int line_nr = 1;
+	
+	read_file:
 	ifs.open(fileName, std::ifstream::in);
 	while (getline(ifs, line))
 	{
 		words.clear();
-		if (line.size() != 0) 
-		{
+		if (line.size() != 0)
 			words = strsplit(line, ' ');
-		}
 		if (words.size() != 0)
 		{
 			if (words[0][0] == ';')
-			{
-				std::cout << "comment - " << words[0] << std::endl;
-				continue;
-			}
+				goto contin;
 			else if (words[0] == "push")
-			{
-				if (words.size() == 2)
-					std::cout << "PUSH - "<< words[0] << std::endl;
-				else if (words[2][0] == ';')
-				{
-					std::cout << "comment - " << words[0] << std::endl;
-				}
-				else
-				{
-					std::cout << "Invalid Command" << std::endl;
-				}
-			}
+				parse_push(words, line_nr, errors);
 			else if (words[0] == "add")
-			{
-				if (words.size() == 1)
-					std::cout << "ADD - " << words[0] << std::endl;
-				else if (words[1][0] == ';')
-				{
-					std::cout << "comment - " << words[0] << std::endl;
-				}
-				else
-				{
-					std::cout << "Invalid Command" << std::endl;
-				}
-			}
+				parse_add(words, line_nr, errors);
 			else if (words[0] == "sub")
-			{
-				if (words.size() == 1)
-					std::cout << "SUB - " << words[0] << std::endl;
-				else if (words[1][0] == ';')
-				{
-					std::cout << "comment - " << words[0] << std::endl;
-				}
-				else
-				{
-					std::cout << "Invalid Command" << std::endl;
-				}
-			}
+				parse_sub(words, line_nr, errors);
 			else if (words[0] == "mul")
-			{
-				if (words.size() == 1)
-					std::cout << "MUL - " << words[0] << std::endl;
-				else if (words[1][0] == ';')
-				{
-					std::cout << "comment - " << words[0] << std::endl;
-				}
-				else
-				{
-					std::cout << "Invalid Command" << std::endl;
-				}
-			}
+				parse_mul(words, line_nr, errors);
 			else if (words[0] == "div")
-			{
-				if (words.size() == 1)
-					std::cout << "DIV - " << words[0] << std::endl;
-				else if (words[1][0] == ';')
-				{
-					std::cout << "comment - " << words[0] << std::endl;
-				}
-				else
-				{
-					std::cout << "Invalid Command" << std::endl;
-				}
-			}
+				parse_div(words, line_nr, errors);
 			else if (words[0] == "mod")
-			{
-				if (words.size() == 1)
-					std::cout << "MOD - " << words[0] << std::endl;
-				else if (words[1][0] == ';')
-				{
-					std::cout << "comment - " << words[0] << std::endl;
-				}
-				else
-				{
-					std::cout << "Invalid Command" << std::endl;
-				}
-			}
+				parse_mod(words, line_nr, errors);
 			else if (words[0] == "assert")
-			{
-				if (words.size() == 2)
-					std::cout << "ASSERT - " << words[0] << std::endl;
-				else if (words[2][0] == ';')
-				{
-					std::cout << "comment - " << words[0] << std::endl;
-				}
-				else
-				{
-					std::cout << "Invalid Command" << std::endl;
-				}
-			}
+				parse_assert(words, line_nr, errors);
 			else if (words[0] == "pop")
-			{
-				if (words.size() == 1)
-					std::cout << "POP - " << words[0] << std::endl;
-				else if (words[1][0] == ';')
-				{
-					std::cout << "comment - " << words[0] << std::endl;
-				}
-				else
-				{
-					std::cout << "Invalid Command" << std::endl;
-				}
-			}
+				parse_pop(words, line_nr, errors);
 			else if (words[0] == "dump")
-			{
-				if (words.size() == 1)
-					std::cout << "DUMP - " << words[0] << std::endl;
-				else if (words[1][0] == ';')
-				{
-					std::cout << "comment - " << words[0] << std::endl;
-				}
-				else
-				{
-					std::cout << "Invalid Command" << std::endl;
-				}
-			}
+				parse_dump(words, line_nr, errors);
 			else if (words[0] == "print")
-			{
-				if (words.size() == 1)
-					std::cout << "PRINT - " << words[0] << std::endl;
-				else if (words[1][0] == ';')
-				{
-					std::cout << "comment - " << words[0] << std::endl;
-				}
-				else
-				{
-					std::cout << "Invalid Command" << std::endl;
-				}
-			}
+				parse_print(words, line_nr, errors);
 			else if (words[0] == "exit")
-			{
-				if (words.size() == 1)
-					std::cout << "EXIT - " << words[0] << std::endl;
-				else if (words[1][0] == ';')
-				{
-					std::cout << "comment - " << words[0] << std::endl;
-				}
-				else
-				{
-					std::cout << "Invalid Command" << std::endl;
-				}
-			}
+				parse_exit(words, line_nr, errors);
 			else
-			{
-				std::cout << "Invalid Command" << std::endl;
-			}
-		}	
+				errors << "Invalid Command on line " << line_nr << std::endl;
+		}
+		contin:
+		line_nr++;
 	}
 	ifs.close();
+	if (!errors.str().empty())
+	{
+		throw Lexical_error(errors.str());
+	}
+	else if (FILE_CHECKED == false)
+	{
+		FILE_CHECKED = true;
+		goto read_file;
+	}
 }
