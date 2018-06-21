@@ -6,6 +6,23 @@ int		main(int ac, char **av)
 {
 	if (ac != 2)
 	{
+		std::string line;
+		std::ofstream ofs("stdin");
+		do 
+		{
+			std::getline(std::cin, line);
+			ofs << line << std::endl;
+		}
+		while (line != ";;");
+		ofs.close();
+		try
+		{
+			readFile("stdin");
+		}
+		catch(Lexical_error &exception)
+		{
+			std::cout << "Lexical/Syntax Exceptions :\n" << exception.what();
+		}
 		return(0);
 	}
 	else
@@ -16,11 +33,11 @@ int		main(int ac, char **av)
 		(void)av;
 		try
 		{
-			readFile_1(av[1]);
+			readFile(av[1]);
 		}
 		catch(Lexical_error &exception)
 		{
-			std::cout << "Lexical Exceptions :\n" << exception.what();
+			std::cout << "Lexical/Syntax Exceptions :\n" << exception.what();
 		}
 		Stack the_stak;
 		t_stack *item1 = new t_stack;

@@ -2,7 +2,7 @@
 
 bool	check_args(std::string word)
 {
-	if (std::regex_match(word, std::regex("([a-z]{3}[0-9]{2}\\()([0-9]+\\))")) || std::regex_match(word, std::regex("([a-z]+\\()([0-9]+(\\.?[0-9]+)?\\))")))
+	if (std::regex_match(word, std::regex("([a-z]{3}[0-9]{2}\\()((-|\\+)?[0-9]+\\))")) || std::regex_match(word, std::regex("([a-z]+\\()((-|\\+)?[0-9]+(\\.?[0-9]+)?\\))")))
 	{
 		return(true);
 	}
@@ -28,5 +28,5 @@ void	parse_push(std::vector<std::string> &words, int line_nr, std::stringstream 
 		}
 	}
 	else
-		errors << "Invalid Command on line " << line_nr << std::endl;
+		errors << "Syntax error on line " << line_nr << std::endl;
 }

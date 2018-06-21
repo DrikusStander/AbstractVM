@@ -4,6 +4,7 @@ void	parse_exit(std::vector<std::string> &words, int line_nr, std::stringstream 
 {
 	if (words.size() == 1)
 	{
+		EXIT = true;
 		if (FILE_CHECKED)
 		{
 			// handle exit here
@@ -12,6 +13,7 @@ void	parse_exit(std::vector<std::string> &words, int line_nr, std::stringstream 
 	}
 	else if (words.size() > 1 && words[1][0] == ';')
 	{
+		EXIT = true;
 		if (FILE_CHECKED)
 		{
 			// handle exit here
@@ -19,5 +21,5 @@ void	parse_exit(std::vector<std::string> &words, int line_nr, std::stringstream 
 		}
 	}
 	else
-		errors << "Invalid Command on line " << line_nr << std::endl;
+		errors << "Syntax error on line " << line_nr << std::endl;
 }

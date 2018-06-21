@@ -10,11 +10,12 @@
 #include <regex>
 
 extern bool FILE_CHECKED;
+extern bool EXIT;
 
 /*
 	parse.cpp
 */
-void						readFile_1(std::string fileName);
+void						readFile(std::string fileName);
 std::string					trim(std::string &str);
 std::vector<std::string>	strsplit(std::string &line, char delem);
 

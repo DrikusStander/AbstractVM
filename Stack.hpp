@@ -4,6 +4,7 @@
 
 #include <string>
 #include <iostream>
+#include "IOperand.hpp"
 
 struct	t_stack
 {
@@ -16,18 +17,9 @@ struct	t_stack
 		double dl;
 	};
 
-	enum type
-	{
-		INT8 = 0,
-		INT16,
-		INT32,
-		FLT,
-		DBL
-	};
-
-	store	val;
-	type	val_type;
-	t_stack	*next;
+	store			val;
+	eOperandType	val_type;
+	t_stack			*next;
 };
 
 class Stack

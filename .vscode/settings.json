@@ -17,6 +17,7 @@
 		"istream": "cpp",
 		"deque": "cpp",
 		"regex": "cpp",
-		"sstream": "cpp"
+		"sstream": "cpp",
+		"__locale": "cpp"
 	}
 }

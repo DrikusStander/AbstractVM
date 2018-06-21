@@ -1,6 +1,7 @@
 #include "parse.hpp"
 #include "Exceptions.hpp"
 bool FILE_CHECKED = false;
+bool EXIT = false;
 
 std::string trim(std::string &str)
 {
@@ -28,7 +29,7 @@ std::vector<std::string>	strsplit(std::string &line, char delem)
 	return (words);
 }
 
-void	readFile_1(std::string fileName)
+void	readFile(std::string fileName)
 {
 	std::ifstream ifs;
 	std::string line;
@@ -76,6 +77,8 @@ void	readFile_1(std::string fileName)
 		line_nr++;
 	}
 	ifs.close();
+	if (EXIT == false)
+		errors << "No Exit command" << std::endl;
 	if (!errors.str().empty())
 	{
 		throw Lexical_error(errors.str());

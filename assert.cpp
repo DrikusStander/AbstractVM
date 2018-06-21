@@ -19,5 +19,5 @@ void	parse_assert(std::vector<std::string> &words, int line_nr, std::stringstrea
 		}
 	}
 	else
-		errors << "Invalid Command on line " << line_nr << std::endl;
+		errors << "Syntax error on line " << line_nr << std::endl;
 }
