@@ -9,24 +9,15 @@
 
 struct	t_stack
 {
-	union store
-	{
-		std::int8_t in8;
-		std::int16_t in16;
-		std::int32_t in32;
-		float fl;
-		double dl;
-	};
-
-	store			val;
-	eOperandType	val_type;
+	IOperand const	*val;
 	t_stack			*next;
 };
 
 class Stack
 {
 	private:
-		struct t_stack *_top_of_stack;
+		t_stack		*_top_of_stack;
+		int			_size_of_stack;
 	protected:
 	public:
 		Stack( void );
@@ -37,6 +28,7 @@ class Stack
 		void	addToStack(t_stack *item);
 		void	removeFromStack( void );
 		void	dumpStack( void );
+		int		getStackSize( void );
 };
 
 #endif

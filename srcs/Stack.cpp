@@ -3,13 +3,16 @@
 
 Stack::Stack( void )
 {
-	this->_top_of_stack = NULL;	
+	this->_top_of_stack = NULL;
+	this->_size_of_stack = 0;
 	return;
 }
 
 Stack::Stack( Stack const & src)
 {
 	this->_top_of_stack = src._top_of_stack;
+	this->_size_of_stack = src._size_of_stack;
+	
 }
 
 Stack::~Stack( void )
@@ -20,6 +23,7 @@ Stack::~Stack( void )
 Stack & Stack::operator=(Stack const & rhs)
 {
 	this->_top_of_stack = rhs._top_of_stack;
+	this->_size_of_stack = rhs._size_of_stack;	
 	return (*this);
 }
 
@@ -35,6 +39,8 @@ void	Stack::addToStack(t_stack *item)
 		item->next = this->_top_of_stack;
 	}
 	this->_top_of_stack = item;
+	if (this->_top_of_stack)
+		this->_size_of_stack++;
 }
 
 void	Stack::removeFromStack( void )
@@ -45,6 +51,7 @@ void	Stack::removeFromStack( void )
 		temp = this->_top_of_stack->next;
 		delete this->_top_of_stack;
 		this->_top_of_stack = temp;
+		this->_size_of_stack--;
 	}
 	else
 	{
@@ -59,10 +66,16 @@ void	Stack::dumpStack( void )
 	lst = this->_top_of_stack;
 	while (lst)
 	{
-		std::cout << lst->val.in32;
+		if (lst->val)
+			std::cout << lst->val->toString();
 		if (lst->next)
 			std::cout << " ";
 		lst = lst->next;
 	}
 	std::cout << std::endl;
+}
+
+int		Stack::getStackSize( void )
+{
+	return(this->_size_of_stack);
 }
