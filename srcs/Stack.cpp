@@ -40,13 +40,20 @@ void	Stack::addToStack(t_stack *item)
 void	Stack::removeFromStack( void )
 {
 	t_stack *temp;
-	temp = this->_top_of_stack->next;
-	delete this->_top_of_stack;
-	this->_top_of_stack = temp;
+	if (this->_top_of_stack)
+	{
+		temp = this->_top_of_stack->next;
+		delete this->_top_of_stack;
+		this->_top_of_stack = temp;
+	}
+	else
+	{
+		throw Stack_error("No items to pop\n");
+	}
 	temp = NULL;
 }
 
-void	Stack::printStack( void )
+void	Stack::dumpStack( void )
 {
 	t_stack *lst;
 	lst = this->_top_of_stack;

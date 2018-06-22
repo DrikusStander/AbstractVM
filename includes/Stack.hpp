@@ -5,6 +5,7 @@
 #include <string>
 #include <iostream>
 #include "IOperand.hpp"
+#include "Exceptions.hpp"
 
 struct	t_stack
 {
@@ -35,7 +36,7 @@ class Stack
 		t_stack * getTopOfStack( void );
 		void	addToStack(t_stack *item);
 		void	removeFromStack( void );
-		void	printStack( void );
+		void	dumpStack( void );
 };
 
 #endif

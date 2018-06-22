@@ -5,6 +5,7 @@
 #include "parse.hpp"
 #include "Stack.hpp"
 #include "Exceptions.hpp"
+#include "IOperand.hpp"
 
 #include <iostream>
 #include <string>
