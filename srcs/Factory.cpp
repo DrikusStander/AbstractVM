@@ -31,14 +31,14 @@ IOperand const * Factory::createInt32( std::string const & value ) const
 
 IOperand const * Factory::createFloat( std::string const & value ) const
 {
-(void)value;
-	return(NULL);
+	eOperandType temp = Float;
+	return(new floatOperand(temp, value));
 }
 
 IOperand const * Factory::createDouble( std::string const & value ) const
 {
-(void)value;
-	return(NULL);
+	eOperandType temp = Double;
+	return(new doubleOperand(temp, value));
 }
 
 IOperand const * Factory::createOperand( eOperandType type, std::string const & value ) const

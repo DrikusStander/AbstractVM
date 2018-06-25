@@ -30,6 +30,9 @@
 		"functional": "cpp",
 		"memory": "cpp",
 		"tuple": "cpp",
-		"type_traits": "cpp"
+		"type_traits": "cpp",
+		"__bit_reference": "cpp",
+		"locale": "cpp",
+		"system_error": "cpp"
 	}
 }

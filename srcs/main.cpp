@@ -23,6 +23,18 @@ int		main(int ac, char **av)
 		{
 			std::cout << "Lexical/Syntax Exceptions :\n" << exception.what();
 		}
+		catch(Stack_error &exception)
+		{
+			std::cout << "Stack Exceptions :\n" << exception.what();
+		}
+		catch(DivByZero_error &exception)
+		{
+			std::cout << "Division Exceptions :\n" << exception.what();
+		}
+		catch(OverFlow_error &exception)
+		{
+			std::cout << "OverFlow Exceptions :\n" << exception.what();
+		}
 		return(0);
 	}
 	else
@@ -40,11 +52,15 @@ int		main(int ac, char **av)
 
 			t_stack *item1 = new t_stack;
 			item1->next = NULL;
-			item1->val = fac.createOperand(eOperandType::int8, "100");
+			item1->val = fac.createOperand(eOperandType::int8, "1");
 
 			t_stack *item2 = new t_stack;
 			item2->next = NULL;
-			item2->val = fac.createOperand(eOperandType::int8, "60");
+			std::stringstream ss;
+			ss << INT32_MIN;
+			std::string str = ss.str();
+
+			item2->val = fac.createOperand(eOperandType::int32,"-3");
 
 			the_stak.addToStack(item1);
 			the_stak.dumpStack();
@@ -54,7 +70,7 @@ int		main(int ac, char **av)
 
 			t_stack *item3 = new t_stack;
 			item3->next = NULL;
-			item3->val = fac.createOperand(eOperandType::int32, "3100");
+			item3->val = fac.createOperand(eOperandType::int16, "133");
 
 
 			// t_stack *item4 = new t_stack;
@@ -68,17 +84,48 @@ int		main(int ac, char **av)
 			the_stak.dumpStack();
 
 			t_stack *item5 = new t_stack;
-			t_stack *item6 = new t_stack;
+			item5->next = NULL;
 			
-			item5->val = static_cast<Int8Operand const &>(*(item1->val)) + *(item3->val);
-			item6->val = static_cast<Int8Operand const &>(*(item1->val)) + *(item1->val);
+			// t_stack *item6 = new t_stack;
+			// item6->next = NULL;
+			
+			
+			item5->val = static_cast<Int8Operand const &>(*(item1->val)) - *(item2->val);
+			// item6->val = static_cast<Int8Operand const &>(*(item1->val)) + *(item1->val);
+
+			// t_stack *item7 = new t_stack;
+			// item7->next = NULL;
+			
+			
+			// item7->val = static_cast<Int8Operand const &>(*(item1->val)) - *(item2->val);
+
+			// t_stack *item8 = new t_stack;
+			// item8->next = NULL;
+			
+			
+			// item8->val = static_cast<Int8Operand const &>(*(item1->val)) * *(item3->val);
+
+			// t_stack *item9 = new t_stack;
+			// item9->next = NULL;
+			
+			
+			// item9->val = static_cast<Int8Operand const &>(*(item1->val)) % *(item2->val);
 			std::cout << "<><><><><><><><><>><><><><><><><><><>><><><>"  << std::endl;
 			the_stak.addToStack(item5);
 			the_stak.dumpStack();
-			std::cout << "<><><><><><><><><>><><><><><><><><><>><><><>"  << std::endl;
-			the_stak.addToStack(item6);
-			the_stak.dumpStack();
+			// std::cout << "<><><><><><><><><>><><><><><><><><><>><><><>"  << std::endl;
+			// the_stak.addToStack(item6);
+			// the_stak.dumpStack();
 			
+			// the_stak.addToStack(item7);
+			// the_stak.dumpStack();
+			
+			// the_stak.addToStack(item8);
+			// the_stak.dumpStack();
+
+
+			// the_stak.addToStack(item9);
+			// the_stak.dumpStack();
 			// std::cout << "****************" << std::endl;
 			// the_stak.addToStack(item4);
 			// the_stak.dumpStack();
@@ -105,7 +152,14 @@ int		main(int ac, char **av)
 		{
 			std::cout << "Stack Exceptions :\n" << exception.what();
 		}
-		
+		catch(DivByZero_error &exception)
+		{
+			std::cout << "Division Exceptions :\n" << exception.what();
+		}
+		catch(OverFlow_error &exception)
+		{
+			std::cout << "OverFlow Exceptions :\n" << exception.what();
+		}
 	}
 	return(0);
 }

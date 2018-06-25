@@ -1,6 +1,7 @@
 FLAGS = -Wall -Werror -Wextra -Iincludes -std=c++11
 DIR = ./srcs/
-SRCS = main.cpp parse.cpp Stack.cpp Exceptions.cpp push.cpp add.cpp sub.cpp mul.cpp div.cpp mod.cpp pop.cpp dump.cpp print.cpp assert.cpp exit.cpp Factory.cpp IOperand.cpp Int32Operand.cpp
+SRCS = main.cpp parse.cpp Stack.cpp Exceptions.cpp push.cpp add.cpp sub.cpp mul.cpp div.cpp mod.cpp pop.cpp dump.cpp print.cpp assert.cpp exit.cpp Factory.cpp IOperand.cpp Int32Operand.cpp Int16Operand.cpp \
+		floatOperand.cpp doubleOperand.cpp
 NAME = AbstractVM
 
 all:

@@ -6,6 +6,9 @@
 #include <iostream>
 #include <sstream>
 #include <math.h>
+#include <cfloat>
+#include <cmath>
+#include "Exceptions.hpp"
 
 
 enum eOperandType
@@ -40,6 +43,11 @@ union store
 };
 
 #include "Int32Operand.hpp"
+#include "Int16Operand.hpp"
+#include "doubleOperand.hpp"
+#include "floatOperand.hpp"
+
+
 
 class Int8Operand : public IOperand
 {

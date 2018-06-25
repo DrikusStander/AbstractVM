@@ -1,7 +1,7 @@
 
 
-#ifndef INT32OPERAND_HPP
-#define INT32OPERAND_HPP
+#ifndef Int16Operand_HPP
+#define Int16Operand_HPP
 
 #include "IOperand.hpp"
 #include <string>
@@ -11,18 +11,17 @@
 #include <cfloat>
 
 
-
-class Int32Operand : public IOperand
+class Int16Operand : public IOperand
 {
 	private:
 		store			_val;
 		eOperandType	_type;
 	protected:
-		Int32Operand( void );
+		Int16Operand( void );
 	public:
-		Int32Operand( eOperandType & type, std::string const & val);
-		Int32Operand( Int32Operand const & src );
-		Int32Operand const & operator=(Int32Operand const & rhs);
+		Int16Operand( eOperandType & type, std::string const & val);
+		Int16Operand( Int16Operand const & src );
+		Int16Operand const & operator=(Int16Operand const & rhs);
 		virtual int getPrecision( void ) const;
 		virtual eOperandType getType( void ) const;
 		virtual IOperand const * operator+( IOperand const & rhs ) const;
@@ -31,8 +30,8 @@ class Int32Operand : public IOperand
 		virtual IOperand const * operator/( IOperand const & rhs ) const;
 		virtual IOperand const * operator%( IOperand const & rhs ) const;
 		virtual std::string const & toString( void ) const;
-		virtual ~Int32Operand( void );
-		int32_t	getVal( void ) const;
+		virtual ~Int16Operand( void );
+		int16_t	getVal( void ) const;
 		IOperand *next;
 };
 

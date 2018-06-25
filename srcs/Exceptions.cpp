@@ -30,3 +30,34 @@ const char* Stack_error::what() const throw()
 {
 	return(this->_error.c_str());
 }
+
+
+DivByZero_error::DivByZero_error( std::string error) : _error(error)
+{
+	return;
+}
+ 
+DivByZero_error::~DivByZero_error( void ) throw()
+{
+	return;
+}
+
+const char* DivByZero_error::what() const throw() 
+{
+	return(this->_error.c_str());
+}
+
+OverFlow_error::OverFlow_error( std::string error) : _error(error)
+{
+	return;
+}
+ 
+OverFlow_error::~OverFlow_error( void ) throw()
+{
+	return;
+}
+
+const char* OverFlow_error::what() const throw() 
+{
+	return(this->_error.c_str());
+}

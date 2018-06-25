@@ -26,4 +26,24 @@ class Stack_error : public std::exception
 		const char* what() const throw();
 };
 
+class DivByZero_error : public std::exception
+{
+	private:
+		std::string _error;
+	public:
+		DivByZero_error( std::string error);
+		~DivByZero_error( void ) throw();
+		const char* what() const throw();
+};
+
+class OverFlow_error : public std::exception
+{
+	private:
+		std::string _error;
+	public:
+		OverFlow_error( std::string error);
+		~OverFlow_error( void ) throw();
+		const char* what() const throw();
+};
+
 #endif

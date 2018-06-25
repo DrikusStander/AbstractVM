@@ -8,11 +8,11 @@ Int8Operand::Int8Operand( void )
 
 Int8Operand::Int8Operand( eOperandType & type, std::string const &val)
 {
-	std::cout << "Int8Operand constructor val str: " << val << std::endl;	
+	// std::cout << "Int8Operand constructor val str: " << val << std::endl;	
 	this->_type = type;
 	this->_val.in8 = std::atoi(val.c_str());
-	std::cout << "Int8Operand constructor atoi: " << std::atoi(val.c_str()) << std::endl;	
-	std::cout << "Int8Operand constructor type: "<< this->_type << " value : " << this->_val.in8 << std::endl;
+	// std::cout << "Int8Operand constructor atoi: " << std::atoi(val.c_str()) << std::endl;	
+	// std::cout << "Int8Operand constructor type: "<< this->_type << " value : " << this->_val.in8 << std::endl;
 	return;
 }
 
@@ -42,16 +42,134 @@ eOperandType Int8Operand::getType( void ) const
 
 IOperand const * Int8Operand::operator+( IOperand const & rhs ) const
 {
+	eOperandType type;
+	std::stringstream sstr;
+	type = (this->getType() < rhs.getType()) ? rhs.getType() : this->getType();
 	if (dynamic_cast<const floatOperand*>(&rhs) || dynamic_cast<const doubleOperand*>(&rhs))
 	{
-		std::cout << "Int8Operand + fl/dbl :" << std::endl;
-		// Int8Operand const *ptr = dynamic_cast<const Int8Operand*>(&rhs);
-		double val = this->_val.in8 + rhs.getVal();
+		double val;
+		if (dynamic_cast<const floatOperand*>(&rhs))
+		{
+			floatOperand const *ptr = reinterpret_cast<const floatOperand*>(&rhs);
+			if ((this->getVal() > 0 && ptr->getVal() > FLT_MAX - this->getVal()) || (this->getVal() < 0 && ptr->getVal() < -FLT_MAX - this->getVal()))
+				throw OverFlow_error("Float Overflow\n");
+			val = static_cast<double>(this->getVal()) + ptr->getVal();
+			sstr << val;
+			return(new floatOperand(type, sstr.str()));
+		}
+		else
+		{
+			doubleOperand const *ptr = reinterpret_cast<const doubleOperand*>(&rhs);
+			if ((this->getVal() > 0 && ptr->getVal() > DBL_MAX - this->getVal()) || (this->getVal() < 0 && ptr->getVal() < -DBL_MAX - this->getVal()))
+				throw OverFlow_error("Double Overflow\n");
+			std::cout << "DBL_MAX : " << DBL_MAX << std::endl;
+			val = static_cast<double>(this->getVal()) + ptr->getVal();
+			sstr << val;
+			return(new doubleOperand(type, sstr.str()));
+		}
+	}
+	else
+	{
+		Int32Operand const *ptr = reinterpret_cast<const Int32Operand*>(&rhs);
+		int val = this->getVal() + ptr->getVal();
+		sstr << val;
+		if (type == int8)
+		{
+			if ((this->getVal() > 0 && ptr->getVal() > INT8_MAX - this->getVal()) || (this->getVal() < 0 && ptr->getVal() < INT8_MIN - this->getVal()))
+				throw OverFlow_error("Int8 Overflow\n");
+			return(new Int8Operand(type, sstr.str()));
+		}
+		else if (type == int16)
+		{
+			if ((this->getVal() > 0 && ptr->getVal() > INT16_MAX - this->getVal()) || (this->getVal() < 0 && ptr->getVal() < INT16_MIN - this->getVal()))
+				throw OverFlow_error("Int16 Overflow\n");
+			return(new Int16Operand(type, sstr.str()));
+		}
+		else
+		{
+			if ((this->getVal() > 0 && ptr->getVal() > INT32_MAX - this->getVal()) || (this->getVal() < 0 && ptr->getVal() < INT32_MIN - this->getVal()))
+				throw OverFlow_error("Int32 Overflow\n");
+			return(new Int32Operand(type, sstr.str()));
+		}
+	}
+	return(NULL);
+}
+
+IOperand const * Int8Operand::operator-( IOperand const & rhs ) const
+{
+	eOperandType type;
+	std::stringstream sstr;
+	type = (this->getType() < rhs.getType()) ? rhs.getType() : this->getType();
+	if (dynamic_cast<const floatOperand*>(&rhs) || dynamic_cast<const doubleOperand*>(&rhs))
+	{
+		double val;
+		if (dynamic_cast<const floatOperand*>(&rhs))
+		{
+			floatOperand const *ptr = reinterpret_cast<const floatOperand*>(&rhs);
+			if ((this->getVal() > 0 && ptr->getVal() > FLT_MAX - this->getVal()) || (this->getVal() < 0 && ptr->getVal() < -FLT_MAX - this->getVal()))
+				throw OverFlow_error("Float Overflow\n");
+			val = static_cast<double>(this->getVal()) - ptr->getVal();
+			sstr << val;
+			return(new floatOperand(type, sstr.str()));
+		}
+		else
+		{
+			doubleOperand const *ptr = reinterpret_cast<const doubleOperand*>(&rhs);
+			if ((this->getVal() > 0 && ptr->getVal() > DBL_MAX - this->getVal()) || (this->getVal() < 0 && ptr->getVal() < -DBL_MAX - this->getVal()))
+				throw OverFlow_error("Double Overflow\n");
+			std::cout << "DBL_MAX : " << DBL_MAX << std::endl;
+			val = static_cast<double>(this->getVal()) - ptr->getVal();
+			sstr << val;
+			return(new doubleOperand(type, sstr.str()));
+		}
+	}
+	else
+	{
+		Int32Operand const *ptr = reinterpret_cast<const Int32Operand*>(&rhs);
+		int val = this->getVal() + ptr->getVal();
+		sstr << val;
+		if (type == int8)
+		{
+			if ((this->getVal() > 0 && ptr->getVal() > INT8_MAX - this->getVal()) || (this->getVal() < 0 && ptr->getVal() < INT8_MIN - this->getVal()))
+				throw OverFlow_error("Int8 Overflow\n");
+			return(new Int8Operand(type, sstr.str()));
+		}
+		else if (type == int16)
+		{
+			if ((this->getVal() > 0 && ptr->getVal() > INT16_MAX - this->getVal()) || (this->getVal() < 0 && ptr->getVal() < INT16_MIN - this->getVal()))
+				throw OverFlow_error("Int16 Overflow\n");
+			return(new Int16Operand(type, sstr.str()));
+		}
+		else
+		{
+			if ((this->getVal() > 0 && ptr->getVal() > INT32_MAX - this->getVal()) || (this->getVal() < 0 && ptr->getVal() < INT32_MIN - this->getVal()))
+				throw OverFlow_error("Int32 Overflow\n");
+			return(new Int32Operand(type, sstr.str()));
+		}
+	}
+	return(NULL);
+}
+
+IOperand const * Int8Operand::operator*( IOperand const & rhs ) const
+{
+	if (dynamic_cast<const floatOperand*>(&rhs) || dynamic_cast<const doubleOperand*>(&rhs))
+	{
+		double val;
+		if (dynamic_cast<const floatOperand*>(&rhs))
+		{
+			floatOperand const *ptr = reinterpret_cast<const floatOperand*>(&rhs);
+			val = static_cast<double>(this->_val.in8) * ptr->getVal();
+		}
+		else
+		{
+			doubleOperand const *ptr = reinterpret_cast<const doubleOperand*>(&rhs);
+			val = static_cast<double>(this->_val.in8) * ptr->getVal();
+		}
 		std::stringstream sstr;
 		sstr << val;
 		std::string str = sstr.str();
 		eOperandType type;
-		if (val <= FLT_MAX && val => -FLT_MAX)
+		if (val <= FLT_MAX && val >= -FLT_MAX)
 		{
 			type = Float;
 			return(new floatOperand(type, str));
@@ -62,16 +180,15 @@ IOperand const * Int8Operand::operator+( IOperand const & rhs ) const
 			return(new doubleOperand(type, str));
 		}
 	}
-	else //(dynamic_cast<const Int8Operand*>(&rhs))
+	else
 	{
-		std::cout << "Int8Operand + Int8Operand :" << std::endl;
-		// Int8Operand const *ptr = dynamic_cast<const Int8Operand*>(&rhs);
-		int val = this->_val.in8 + rhs.getVal();
+		Int32Operand const *ptr = reinterpret_cast<const Int32Operand*>(&rhs);
+		int val = this->_val.in8 * ptr->getVal();
 		std::stringstream sstr;
 		sstr << val;
 		std::string str = sstr.str();
 		eOperandType type;
-		if (val <= INT8_MAX && val => INT8_MIN)
+		if (val <= INT8_MAX && val >= INT8_MIN)
 		{
 			type = int8;
 			return(new Int8Operand(type, str));
@@ -83,93 +200,135 @@ IOperand const * Int8Operand::operator+( IOperand const & rhs ) const
 		}
 		else
 		{
-			type = int13;
+			type = int32;
 			return(new Int32Operand(type, str));
 		}
-	}
-	// else if (dynamic_cast<const Int32Operand*>(&rhs))
-	// {
-	// 	std::cout << "Int8Operand + Int32Operand :" << std::endl;
-	// 	Int32Operand const *ptr = dynamic_cast<const Int32Operand*>(&rhs);
-	// 	store val;
-	// 	val.in32 = this->_val.in8 + ptr->getVal();
-	// 	std::stringstream sstr;
-	// 	sstr << val.in32;
-	// 	eOperandType type = (this->getType() > rhs.getType()) ? this->getType() : rhs.getType();
-	// 	std::string str = sstr.str();
-	// 	return(new Int32Operand(type, str));
-	// }
-	return(NULL);
-}
-
-IOperand const * Int8Operand::operator-( IOperand const & rhs ) const
-{
-	if (dynamic_cast<const Int8Operand*>(&rhs))
-	{
-		Int8Operand const *ptr = dynamic_cast<const Int8Operand*>(&rhs);
-	store val;
-	val.in8 = this->_val.in8 - ptr->_val.in8;
-	std::stringstream sstr;
-	sstr << val.in8;
-	eOperandType type = (this->getType() > rhs.getType()) ? this->getType() : rhs.getType();
-	std::string str = sstr.str();
-	return(new Int8Operand(type, str));
-	}
-	return(NULL);
-}
-
-IOperand const * Int8Operand::operator*( IOperand const & rhs ) const
-{
-	if (dynamic_cast<const Int8Operand*>(&rhs))
-	{
-		Int8Operand const *ptr = dynamic_cast<const Int8Operand*>(&rhs);
-	store val;
-	val.in8 = this->_val.in8 * ptr->_val.in8;
-	std::stringstream sstr;
-	sstr << val.in8;
-	eOperandType type = (this->getType() > rhs.getType()) ? this->getType() : rhs.getType();
-	std::string str = sstr.str();
-	return(new Int8Operand(type, str));
 	}
 	return(NULL);
 }
 
 IOperand const * Int8Operand::operator/( IOperand const & rhs ) const
 {
-	if (dynamic_cast<const Int8Operand*>(&rhs))
+	if (dynamic_cast<const floatOperand*>(&rhs) || dynamic_cast<const doubleOperand*>(&rhs))
 	{
-		Int8Operand const *ptr = dynamic_cast<const Int8Operand*>(&rhs);
-	store val;
-	val.in8 = this->_val.in8 / ptr->_val.in8;
-	std::stringstream sstr;
-	sstr << val.in8;
-	eOperandType type = (this->getType() > rhs.getType()) ? this->getType() : rhs.getType();
-	std::string str = sstr.str();
-	return(new Int8Operand(type, str));
+		double val;
+		if (dynamic_cast<const floatOperand*>(&rhs))
+		{
+			floatOperand const *ptr = reinterpret_cast<const floatOperand*>(&rhs);
+			if (ptr->getVal() == 0)
+				throw DivByZero_error("Can not divide by Zero\n");
+			val = static_cast<double>(this->_val.in8) / ptr->getVal();
+		}
+		else
+		{
+			doubleOperand const *ptr = reinterpret_cast<const doubleOperand*>(&rhs);
+			if (ptr->getVal() == 0)
+				throw DivByZero_error("Can not divide by Zero\n");
+			val = static_cast<double>(this->_val.in8) * ptr->getVal();
+		}
+		std::stringstream sstr;
+		sstr << val;
+		std::string str = sstr.str();
+		eOperandType type;
+		if (val <= FLT_MAX && val >= -FLT_MAX)
+		{
+			type = Float;
+			return(new floatOperand(type, str));
+		}
+		else
+		{
+			type = Double;
+			return(new doubleOperand(type, str));
+		}
+	}
+	else
+	{
+		Int32Operand const *ptr = reinterpret_cast<const Int32Operand*>(&rhs);
+		if (ptr->getVal() == 0)
+				throw DivByZero_error("Can not divide by Zero\n");
+		int val = this->_val.in8 / ptr->getVal();
+		std::stringstream sstr;
+		sstr << val;
+		std::string str = sstr.str();
+		eOperandType type;
+		if (val <= INT8_MAX && val >= INT8_MIN)
+		{
+			type = int8;
+			return(new Int8Operand(type, str));
+		}
+		else if (val <= INT16_MAX && val >= INT16_MIN )
+		{
+			type = int16;
+			return(new Int16Operand(type, str));
+		}
+		else
+		{
+			type = int32;
+			return(new Int32Operand(type, str));
+		}
 	}
 	return(NULL);
 }
 
 IOperand const * Int8Operand::operator%( IOperand const & rhs ) const
 {
-	if (dynamic_cast<const Int8Operand*>(&rhs))
+	if (dynamic_cast<const floatOperand*>(&rhs) || dynamic_cast<const doubleOperand*>(&rhs))
 	{
-		Int8Operand const *ptr = dynamic_cast<const Int8Operand*>(&rhs);
-	
-	store val;
-	if (this->getPrecision() > 2 || ptr->getPrecision() > 2)
-	{
-		val.dl = fmod(this->_val.dl, ptr->_val.dl);
+		double val;
+		if (dynamic_cast<const floatOperand*>(&rhs))
+		{
+			floatOperand const *ptr = reinterpret_cast<const floatOperand*>(&rhs);
+			if (ptr->getVal() == 0)
+				throw DivByZero_error("Can not divide by Zero\n");
+			val = fmod(static_cast<double>(this->_val.in8), ptr->getVal());
+		}
+		else
+		{
+			doubleOperand const *ptr = reinterpret_cast<const doubleOperand*>(&rhs);
+			if (ptr->getVal() == 0)
+				throw DivByZero_error("Can not divide by Zero\n");
+			val = fmod(static_cast<double>(this->_val.in8), ptr->getVal());
+		}
+		std::stringstream sstr;
+		sstr << val;
+		std::string str = sstr.str();
+		eOperandType type;
+		if (val <= FLT_MAX && val >= -FLT_MAX)
+		{
+			type = Float;
+			return(new floatOperand(type, str));
+		}
+		else
+		{
+			type = Double;
+			return(new doubleOperand(type, str));
+		}
 	}
 	else
 	{
-		val.in8 = this->_val.in8 % ptr->_val.in8;
-	}
-	std::stringstream sstr;
-	sstr << val.in8;
-	eOperandType type = (this->getType() > rhs.getType()) ? this->getType() : rhs.getType();
-	std::string str = sstr.str();
-	return(new Int8Operand(type, str));
+		Int32Operand const *ptr = reinterpret_cast<const Int32Operand*>(&rhs);
+		if (ptr->getVal() == 0)
+				throw DivByZero_error("Can not divide by Zero\n");
+		int val = this->_val.in8 % ptr->getVal();
+		std::stringstream sstr;
+		sstr << val;
+		std::string str = sstr.str();
+		eOperandType type;
+		if (val <= INT8_MAX && val >= INT8_MIN)
+		{
+			type = int8;
+			return(new Int8Operand(type, str));
+		}
+		else if (val <= INT16_MAX && val >= INT16_MIN )
+		{
+			type = int16;
+			return(new Int16Operand(type, str));
+		}
+		else
+		{
+			type = int32;
+			return(new Int32Operand(type, str));
+		}
 	}
 	return(NULL);
 }
@@ -177,7 +336,7 @@ IOperand const * Int8Operand::operator%( IOperand const & rhs ) const
 std::string const & Int8Operand::toString( void ) const
 {
 	std::stringstream str;
-	str << this->_val.in32;
+	str << this->_val.in32; // should change to in8 as to just display the ascii charachters
 	std::string *sstr = new std::string(str.str());
 	return(*sstr);
 }

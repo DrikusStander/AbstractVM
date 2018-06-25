@@ -41,6 +41,7 @@ void	Stack::addToStack(t_stack *item)
 	this->_top_of_stack = item;
 	if (this->_top_of_stack)
 		this->_size_of_stack++;
+	std::cout << "added to stack" << std::endl;
 }
 
 void	Stack::removeFromStack( void )
