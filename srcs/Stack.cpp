@@ -50,6 +50,8 @@ void	Stack::removeFromStack( void )
 	if (this->_top_of_stack)
 	{
 		temp = this->_top_of_stack->next;
+		delete this->_top_of_stack->val;
+		this->_top_of_stack->val = NULL;
 		delete this->_top_of_stack;
 		this->_top_of_stack = temp;
 		this->_size_of_stack--;
@@ -65,15 +67,18 @@ void	Stack::dumpStack( void )
 {
 	t_stack *lst;
 	lst = this->_top_of_stack;
+	std::cout << "**************** stack Dump *************" << std::endl;
 	while (lst)
 	{
 		if (lst->val)
-			std::cout << lst->val->toString();
-		if (lst->next)
-			std::cout << " ";
+		{
+			std::string	const *temp = &lst->val->toString();
+			std::cout << *temp << std::endl;
+			delete temp;
+		}
 		lst = lst->next;
 	}
-	std::cout << std::endl;
+	std::cout << "**************** ********* *************" << std::endl;
 }
 
 int		Stack::getStackSize( void )

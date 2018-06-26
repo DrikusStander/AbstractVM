@@ -3,7 +3,7 @@
 ; -------------
 
 push int32(42)
-push int32(33)	 	      				      ; just a comment
+push int16(33)	 	      				      ; just a comment
 
 add 
 
@@ -14,7 +14,8 @@ push float(44.55) ; just a comment
 mul ;
 
 push double(42.42)
-push int32(42)
+push float(42.42)
+push int8(42)
 
 dump
 

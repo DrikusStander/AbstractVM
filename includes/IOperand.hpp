@@ -10,6 +10,10 @@
 #include <cmath>
 #include "Exceptions.hpp"
 
+#define CHECK1(si_a, si_b, max)  ( ( si_a > 0 && si_b > 0 ) && ( si_a > (max / si_b) ) )
+#define CHECK2(si_a, si_b, min) ( ( si_a > 0 && si_b < 0 ) && ( si_b < (min / si_a) ) )
+#define CHECK3(si_a, si_b, max) ( ( si_a < 0 && si_b < 0 ) && ( si_b < (max / si_a) ) )
+#define CHECK4(si_a, si_b, min) ( ( si_a < 0 && si_b > 0 ) && ( si_a < (min / si_b) ) )
 
 enum eOperandType
 {
@@ -46,6 +50,7 @@ union store
 #include "Int16Operand.hpp"
 #include "doubleOperand.hpp"
 #include "floatOperand.hpp"
+#include <cerrno>
 
 
 
