@@ -1,21 +1,20 @@
 #include "parse.hpp"
 
-void	parse_dump(std::vector<std::string> &words, int line_nr, std::stringstream &errors)
+void	parse_dump(std::vector<std::string> &words, int line_nr, std::stringstream &errors, Stack *the_stack)
 {
 	if (words.size() == 1)
 	{
 		if (FILE_CHECKED)
 		{
-			// handle dump here
-			std::cout << "DUMP - " << words[0] << std::endl;
+			the_stack->dumpStack();
 		}
 	}
 	else if (words.size() > 1 && words[1][0] == ';')
 	{
 		if (FILE_CHECKED)
 		{
-			// handle dump here
-			std::cout << "comment - " << words[0] << std::endl;
+			the_stack->dumpStack();
+
 		}
 	}
 	else

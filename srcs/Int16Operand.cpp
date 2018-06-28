@@ -74,15 +74,7 @@ IOperand const * Int16Operand::operator+( IOperand const & rhs ) const
 	{
 		Int32Operand const *ptr = reinterpret_cast<const Int32Operand*>(&rhs);
 		int val ;
-		if (type == int16)
-		{
-			if ((this->getVal() > 0 && ptr->getVal() > INT16_MAX - this->getVal()) || (this->getVal() < 0 && ptr->getVal() < INT16_MIN - this->getVal()))
-				throw OverFlow_error("Int16 Overflow\n");
-			val = this->getVal() + ptr->getVal();
-			sstr << val;
-			return(new Int16Operand(type, sstr.str()));
-		}
-		else
+		if (type == int32)
 		{
 			if ((this->getVal() > 0 && ptr->getVal() > INT32_MAX - this->getVal()) || (this->getVal() < 0 && ptr->getVal() < INT32_MIN - this->getVal()))
 				throw OverFlow_error("Int32 Overflow\n");
@@ -90,6 +82,15 @@ IOperand const * Int16Operand::operator+( IOperand const & rhs ) const
 			sstr << val;
 			return(new Int32Operand(type, sstr.str()));
 		}
+		else
+		{
+			if ((this->getVal() > 0 && ptr->getVal() > INT16_MAX - this->getVal()) || (this->getVal() < 0 && ptr->getVal() < INT16_MIN - this->getVal()))
+				throw OverFlow_error("Int16 Overflow\n");
+			val = this->getVal() + ptr->getVal();
+			sstr << val;
+			return(new Int16Operand(type, sstr.str()));
+		}
+		
 	}
 	return(NULL);
 }
@@ -126,15 +127,7 @@ IOperand const * Int16Operand::operator-( IOperand const & rhs ) const
 	{
 		Int32Operand const *ptr = reinterpret_cast<const Int32Operand*>(&rhs);
 		int val;
-		if (type == int16)
-		{
-			if ((this->getVal() < 0 && ptr->getVal() > INT16_MAX + this->getVal()) || (this->getVal() > 0 && ptr->getVal() < INT16_MIN + this->getVal()))
-				throw OverFlow_error("Int16 Overflow\n");
-			val = this->getVal() - ptr->getVal();
-			sstr << val;
-			return(new Int16Operand(type, sstr.str()));
-		}
-		else
+		if (type == int32)
 		{
 			if ((this->getVal() < 0 && ptr->getVal() > INT32_MAX + this->getVal()) || (this->getVal() > 0 && ptr->getVal() < INT32_MIN + this->getVal()))
 				throw OverFlow_error("Int32 Overflow\n");
@@ -142,6 +135,14 @@ IOperand const * Int16Operand::operator-( IOperand const & rhs ) const
 			sstr << val;
 			return(new Int32Operand(type, sstr.str()));
 		}
+		else
+		{
+			if ((this->getVal() < 0 && ptr->getVal() > INT16_MAX + this->getVal()) || (this->getVal() > 0 && ptr->getVal() < INT16_MIN + this->getVal()))
+				throw OverFlow_error("Int16 Overflow\n");
+			val = this->getVal() - ptr->getVal();
+			sstr << val;
+			return(new Int16Operand(type, sstr.str()));
+		}		
 	}
 	return(NULL);
 }
@@ -180,16 +181,7 @@ IOperand const * Int16Operand::operator*( IOperand const & rhs ) const
 	{
 		Int32Operand const *ptr = reinterpret_cast<const Int32Operand*>(&rhs);
 		int val;
-		if (type == int16)
-		{
-			if ( CHECK1(this->getVal(), ptr->getVal(), INT16_MAX) || CHECK2(this->getVal(), ptr->getVal(), INT16_MIN) || 
-				CHECK3(this->getVal(), ptr->getVal(), INT16_MAX) || CHECK4(this->getVal(), ptr->getVal(), INT16_MIN) )
-				throw OverFlow_error("Int16 Overflow\n");
-			val = this->getVal() * ptr->getVal();
-			sstr << val;
-			return(new Int16Operand(type, sstr.str()));
-		}
-		else
+		if (type == int32)
 		{
 			if ( CHECK1(this->getVal(), ptr->getVal(), INT32_MAX) || CHECK2(this->getVal(), ptr->getVal(), INT32_MIN) || 
 				CHECK3(this->getVal(), ptr->getVal(), INT32_MAX) || CHECK4(this->getVal(), ptr->getVal(), INT32_MIN) )
@@ -197,6 +189,15 @@ IOperand const * Int16Operand::operator*( IOperand const & rhs ) const
 			val = this->getVal() * ptr->getVal();
 			sstr << val;
 			return(new Int32Operand(type, sstr.str()));
+		}
+		else
+		{
+			if ( CHECK1(this->getVal(), ptr->getVal(), INT16_MAX) || CHECK2(this->getVal(), ptr->getVal(), INT16_MIN) || 
+				CHECK3(this->getVal(), ptr->getVal(), INT16_MAX) || CHECK4(this->getVal(), ptr->getVal(), INT16_MIN) )
+				throw OverFlow_error("Int16 Overflow\n");
+			val = this->getVal() * ptr->getVal();
+			sstr << val;
+			return(new Int16Operand(type, sstr.str()));
 		}
 	}
 	return(NULL);
@@ -238,16 +239,7 @@ IOperand const * Int16Operand::operator/( IOperand const & rhs ) const
 		Int32Operand const *ptr = reinterpret_cast<const Int32Operand*>(&rhs);
 		if (ptr->getVal() == 0 || this->getVal() == 0)
 				throw DivByZero_error("Can not divide by Zero\n");
-		if (type == int16)
-		{
-			if ((ptr->getVal() == INT16_MIN && this->getVal() == -1) || (this->getVal() == INT16_MIN && ptr->getVal() == -1))
-				throw OverFlow_error("INT16 overflow\n");
-			int val = this->getVal() / ptr->getVal();
-			sstr << val;
-			std::string str = sstr.str();
-			return(new Int16Operand(type, str));
-		}
-		else
+		if (type == int32)
 		{
 			if (ptr->getVal() == INT32_MIN && this->getVal() == -1)
 				throw OverFlow_error("INT32 overflow\n");
@@ -255,7 +247,15 @@ IOperand const * Int16Operand::operator/( IOperand const & rhs ) const
 			sstr << val;
 			std::string str = sstr.str();
 			return(new Int32Operand(type, str));
-
+		}
+		else
+		{
+			if ((ptr->getVal() == INT16_MIN && this->getVal() == -1) || (this->getVal() == INT16_MIN && ptr->getVal() == -1))
+				throw OverFlow_error("INT16 overflow\n");
+			int val = this->getVal() / ptr->getVal();
+			sstr << val;
+			std::string str = sstr.str();
+			return(new Int16Operand(type, str));
 		}
 	}
 	return(NULL);
@@ -299,16 +299,7 @@ IOperand const * Int16Operand::operator%( IOperand const & rhs ) const
 		Int32Operand const *ptr = reinterpret_cast<const Int32Operand*>(&rhs);
 		if (ptr->getVal() == 0 || this->getVal() == 0)
 				throw DivByZero_error("Can not divide by Zero\n");
-		if (type == int16)
-		{
-			if ((ptr->getVal() == INT16_MIN && this->getVal() == -1) || (this->getVal() == INT16_MIN && ptr->getVal() == -1))
-				throw OverFlow_error("INT16 overflow\n");
-			int val = this->getVal() % ptr->getVal();
-			sstr << val;
-			std::string str = sstr.str();
-			return(new Int16Operand(type, str));
-		}
-		else
+		if (type == int32)
 		{
 			if (ptr->getVal() == INT32_MIN && this->getVal() == -1)
 				throw OverFlow_error("INT32 overflow\n");
@@ -316,6 +307,15 @@ IOperand const * Int16Operand::operator%( IOperand const & rhs ) const
 			sstr << val;
 			std::string str = sstr.str();
 			return(new Int32Operand(type, str));
+		}
+		else
+		{
+			if ((ptr->getVal() == INT16_MIN && this->getVal() == -1) || (this->getVal() == INT16_MIN && ptr->getVal() == -1))
+				throw OverFlow_error("INT16 overflow\n");
+			int val = this->getVal() % ptr->getVal();
+			sstr << val;
+			std::string str = sstr.str();
+			return(new Int16Operand(type, str));
 		}
 	}
 	return(NULL);

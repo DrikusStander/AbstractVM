@@ -1,7 +1,9 @@
 #include "parse.hpp"
 #include "Exceptions.hpp"
+
 bool FILE_CHECKED = false;
 bool EXIT = false;
+
 
 std::string trim(std::string &str)
 {
@@ -31,11 +33,13 @@ std::vector<std::string>	strsplit(std::string &line, char delem)
 
 void	readFile(std::string fileName)
 {
+	
 	std::ifstream ifs;
 	std::string line;
 	std::vector<std::string> words;
 	std::stringstream errors;
 	int line_nr = 1;
+	Stack the_stack;
 	
 	read_file:
 	ifs.open(fileName, std::ifstream::in);
@@ -49,27 +53,27 @@ void	readFile(std::string fileName)
 			if (words[0][0] == ';')
 				goto contin;
 			else if (words[0] == "push")
-				parse_push(words, line_nr, errors);
+				parse_push(words, line_nr, errors, &the_stack);
 			else if (words[0] == "add")
-				parse_add(words, line_nr, errors);
+				parse_add(words, line_nr, errors, &the_stack);
 			else if (words[0] == "sub")
-				parse_sub(words, line_nr, errors);
+				parse_sub(words, line_nr, errors, &the_stack);
 			else if (words[0] == "mul")
-				parse_mul(words, line_nr, errors);
+				parse_mul(words, line_nr, errors, &the_stack);
 			else if (words[0] == "div")
-				parse_div(words, line_nr, errors);
+				parse_div(words, line_nr, errors, &the_stack);
 			else if (words[0] == "mod")
-				parse_mod(words, line_nr, errors);
+				parse_mod(words, line_nr, errors, &the_stack);
 			else if (words[0] == "assert")
-				parse_assert(words, line_nr, errors);
+				parse_assert(words, line_nr, errors, &the_stack);
 			else if (words[0] == "pop")
-				parse_pop(words, line_nr, errors);
+				parse_pop(words, line_nr, errors, &the_stack);
 			else if (words[0] == "dump")
-				parse_dump(words, line_nr, errors);
+				parse_dump(words, line_nr, errors, &the_stack);
 			else if (words[0] == "print")
-				parse_print(words, line_nr, errors);
+				parse_print(words, line_nr, errors, &the_stack);
 			else if (words[0] == "exit")
-				parse_exit(words, line_nr, errors);
+				parse_exit(words, line_nr, errors, &the_stack);
 			else
 				errors << "Invalid Command on line " << line_nr << std::endl;
 		}

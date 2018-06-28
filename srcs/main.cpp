@@ -47,60 +47,60 @@ int		main(int ac, char **av)
 		{
 			readFile(av[1]);
 			
-			Stack the_stak;
-			Factory fac;
+			// Stack the_stak;
+			// Factory fac;
 
-			t_stack *item1 = new t_stack;
-			item1->next = NULL;
-			item1->val = fac.createOperand(eOperandType::int8, "102");
+			// t_stack *item1 = new t_stack;
+			// item1->next = NULL;
+			// item1->val = fac.createOperand(eOperandType::int8, "102");
 
-			t_stack *item2 = new t_stack;
-			item2->next = NULL;
-			std::stringstream ss;
-			ss << LONG_MIN;
-			std::string str = ss.str();
-
-			item2->val = fac.createOperand(eOperandType::int8, "3");
-
-			the_stak.addToStack(item1);
-			the_stak.dumpStack();
-			std::cout << "****************" << std::endl;
-			the_stak.addToStack(item2);
-			the_stak.dumpStack();
-
-			std::cout << "<><><><><><><><><>><><><><><><><><><>><><><>"  << std::endl;
-		
-			t_stack *item5 = new t_stack;
-			item5->next = NULL;
-			item5->val = static_cast<Int8Operand const &>(*(item1->val)) + *(item2->val);
-			std::cout << "<><><><><><><><><>><><><><><><><><><>><><><>"  << std::endl;
-			the_stak.addToStack(item5);
-			the_stak.dumpStack();
-
-			t_stack *item6 = new t_stack;
-			item6->next = NULL;
-			item6->val = static_cast<Int8Operand const &>(*(item1->val)) - *(item2->val);
-			std::cout << "<><><><><><><><><>><><><><><><><><><>><><><>"  << std::endl;
-			the_stak.addToStack(item6);
-			the_stak.dumpStack();
-
-
-			std::cout << "int8 max " << INT8_MAX << "int8 min " << INT8_MIN << "int16 max " << INT16_MAX << "int16 min " << INT16_MIN << "int32 max " << INT32_MAX << "int32 min " << INT32_MIN << std::endl;
-
-
-			// item1->val.in32 = val1;
 			// t_stack *item2 = new t_stack;
 			// item2->next = NULL;
-			// item2->val.in32 = val2;
-			
-			// the_stak.removeFromStack();
+			// std::stringstream ss;
+			// ss << LONG_MIN;
+			// std::string str = ss.str();
+
+			// item2->val = fac.createOperand(eOperandType::int8, "3");
+
+			// the_stak.addToStack(item1);
 			// the_stak.dumpStack();
+			// std::cout << "****************" << std::endl;
+			// the_stak.addToStack(item2);
+			// the_stak.dumpStack();
+
+			// std::cout << "<><><><><><><><><>><><><><><><><><><>><><><>"  << std::endl;
+		
+			// t_stack *item5 = new t_stack;
+			// item5->next = NULL;
+			// item5->val = static_cast<Int8Operand const &>(*(item1->val)) + *(item2->val);
+			// std::cout << "<><><><><><><><><>><><><><><><><><><>><><><>"  << std::endl;
+			// the_stak.addToStack(item5);
+			// the_stak.dumpStack();
+
+			// t_stack *item6 = new t_stack;
+			// item6->next = NULL;
+			// item6->val = static_cast<Int8Operand const &>(*(item1->val)) - *(item2->val);
+			// std::cout << "<><><><><><><><><>><><><><><><><><><>><><><>"  << std::endl;
+			// the_stak.addToStack(item6);
+			// the_stak.dumpStack();
+
+
+			// std::cout << "int8 max " << INT8_MAX << "int8 min " << INT8_MIN << "int16 max " << INT16_MAX << "int16 min " << INT16_MIN << "int32 max " << INT32_MAX << "int32 min " << INT32_MIN << std::endl;
+
+
+			// // item1->val.in32 = val1;
+			// // t_stack *item2 = new t_stack;
+			// // item2->next = NULL;
+			// // item2->val.in32 = val2;
+			
+			// // the_stak.removeFromStack();
+			// // the_stak.dumpStack();
+			// // the_stak.removeFromStack();
+			// // the_stak.removeFromStack();
 			// the_stak.removeFromStack();
 			// the_stak.removeFromStack();
-			the_stak.removeFromStack();
-			the_stak.removeFromStack();
-			the_stak.removeFromStack();
-			the_stak.removeFromStack();
+			// the_stak.removeFromStack();
+			// the_stak.removeFromStack();
 
 
 		}

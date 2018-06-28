@@ -1,28 +1,17 @@
 ; -------------
 ; exemple.avm -
 ; -------------
-
 push int32(42)
-push int16(33)	 	      				      ; just a comment
-
-add 
-
-add ; comment
-
-push float(44.55) ; just a comment
-
-mul ;
-
-push double(42.42)
-push float(42.42)
-push int8(42)
-
+push int32(33)
+add ; = 75
 dump
-
+push float(44.55)
+dump
+mul ; 3341,25
+dump
+push double(42.42)
+push int32(42)
+dump 
 pop
-
 assert double(42.42)
-assert double(42.42) ; comment
-
-
 exit

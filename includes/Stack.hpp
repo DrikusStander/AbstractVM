@@ -25,6 +25,7 @@ class Stack
 		~Stack( void );
 		Stack & operator=(Stack const & rhs);
 		t_stack * getTopOfStack( void );
+		t_stack * getSecondItemOfStack( void );
 		void	addToStack(t_stack *item);
 		void	removeFromStack( void );
 		void	dumpStack( void );

@@ -50,6 +50,7 @@ union store
 #include "Int16Operand.hpp"
 #include "doubleOperand.hpp"
 #include "floatOperand.hpp"
+#include "Factory.hpp"
 #include <cerrno>
 
 
@@ -73,6 +74,7 @@ class Int8Operand : public IOperand
 		virtual IOperand const * operator/( IOperand const & rhs ) const;
 		virtual IOperand const * operator%( IOperand const & rhs ) const;
 		virtual std::string const & toString( void ) const;
+		void putChar( void ) const;
 		virtual ~Int8Operand( void );
 		int8_t	getVal( void ) const;
 		IOperand *next;

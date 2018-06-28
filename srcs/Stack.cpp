@@ -32,16 +32,21 @@ t_stack * Stack::getTopOfStack( void )
 	return(this->_top_of_stack);
 }
 
+t_stack * Stack::getSecondItemOfStack( void )
+{
+	return(this->_top_of_stack->next);
+}
+
 void	Stack::addToStack(t_stack *item)
 {
-	if (this->_top_of_stack)
+	if (this->_top_of_stack && item)
 	{
 		item->next = this->_top_of_stack;
 	}
 	this->_top_of_stack = item;
 	if (this->_top_of_stack)
 		this->_size_of_stack++;
-	std::cout << "added to stack" << std::endl;
+	std::cout << "added to stack, stack size now : " << this->_size_of_stack <<std::endl;
 }
 
 void	Stack::removeFromStack( void )

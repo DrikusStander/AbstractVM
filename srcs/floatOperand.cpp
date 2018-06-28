@@ -46,9 +46,9 @@ IOperand const * floatOperand::operator+( IOperand const & rhs ) const
 	eOperandType type;
 	std::stringstream sstr;
 	type = (this->getType() < rhs.getType()) ? rhs.getType() : this->getType();
+	double val;
 	if (dynamic_cast<const floatOperand*>(&rhs) || dynamic_cast<const doubleOperand*>(&rhs))
 	{
-		double val;
 		if (dynamic_cast<const floatOperand*>(&rhs))
 		{
 			floatOperand const *ptr = reinterpret_cast<const floatOperand*>(&rhs);
@@ -69,6 +69,15 @@ IOperand const * floatOperand::operator+( IOperand const & rhs ) const
 			return(new doubleOperand(type, sstr.str()));
 		}
 	}
+	else
+	{
+		Int32Operand const *ptr = reinterpret_cast<const Int32Operand*>(&rhs);
+		if ((this->getVal() > 0 && ptr->getVal() > FLT_MAX - this->getVal()) || (this->getVal() < 0 && ptr->getVal() < -FLT_MAX - this->getVal()))
+			throw OverFlow_error("Float Overflow\n");
+		val = static_cast<double>(this->getVal()) + ptr->getVal();
+		sstr << val;
+		return(new floatOperand(type, sstr.str()));
+	}
 	return(NULL);
 }
 
@@ -77,9 +86,9 @@ IOperand const * floatOperand::operator-( IOperand const & rhs ) const
 	eOperandType type;
 	std::stringstream sstr;
 	type = (this->getType() < rhs.getType()) ? rhs.getType() : this->getType();
+	double val;
 	if (dynamic_cast<const floatOperand*>(&rhs) || dynamic_cast<const doubleOperand*>(&rhs))
 	{
-		double val;
 		if (dynamic_cast<const floatOperand*>(&rhs))
 		{
 			floatOperand const *ptr = reinterpret_cast<const floatOperand*>(&rhs);
@@ -100,14 +109,25 @@ IOperand const * floatOperand::operator-( IOperand const & rhs ) const
 			return(new doubleOperand(type, sstr.str()));
 		}
 	}
+	else
+	{
+		Int32Operand const *ptr = reinterpret_cast<const Int32Operand*>(&rhs);
+		if ((this->getVal() < 0 && ptr->getVal() > FLT_MAX - this->getVal()) || (this->getVal() > 0 && ptr->getVal() < -FLT_MAX + this->getVal()))
+			throw OverFlow_error("Float Overflow\n");
+		val = static_cast<double>(this->getVal()) - ptr->getVal();
+		sstr << val;
+		return(new floatOperand(type, sstr.str()));
+	}
 	return(NULL);
 }
 
 IOperand const * floatOperand::operator*( IOperand const & rhs ) const
 {
+	std::cout << "float MUL" << std::endl;
 	eOperandType type;
 	std::stringstream sstr;
 	type = (this->getType() < rhs.getType()) ? rhs.getType() : this->getType();
+	double val;
 	if (dynamic_cast<const floatOperand*>(&rhs) || dynamic_cast<const doubleOperand*>(&rhs))
 	{
 		double val;
@@ -133,6 +153,18 @@ IOperand const * floatOperand::operator*( IOperand const & rhs ) const
 			return(new doubleOperand(type, sstr.str()));
 		}
 	}
+	else
+	{
+		Int32Operand const *ptr = reinterpret_cast<const Int32Operand*>(&rhs);
+		val = static_cast<double>(this->getVal()) * ptr->getVal();
+		std::cout << "float mul val: " << val << std::endl;
+		if ( CHECK1(this->getVal(), ptr->getVal(), FLT_MAX) || CHECK2(this->getVal(), ptr->getVal(), -FLT_MAX) || 
+			CHECK3(this->getVal(), ptr->getVal(), FLT_MAX) || CHECK4(this->getVal(), ptr->getVal(), -FLT_MAX) )
+			throw OverFlow_error("Float Overflow\n");
+		val = static_cast<double>(this->getVal()) * ptr->getVal();
+		sstr << val;
+		return(new floatOperand(type, sstr.str()));
+	}
 	return(NULL);
 }
 
@@ -141,9 +173,9 @@ IOperand const * floatOperand::operator/( IOperand const & rhs ) const
 	std::stringstream sstr;
 	eOperandType type;
 	type = (this->getType() < rhs.getType()) ? rhs.getType() : this->getType();
+	double val;
 	if (dynamic_cast<const floatOperand*>(&rhs) || dynamic_cast<const doubleOperand*>(&rhs))
 	{
-		double val;
 		if (dynamic_cast<const floatOperand*>(&rhs))
 		{
 			floatOperand const *ptr = reinterpret_cast<const floatOperand*>(&rhs);
@@ -167,6 +199,17 @@ IOperand const * floatOperand::operator/( IOperand const & rhs ) const
 			return(new doubleOperand(type, sstr.str()));
 		}
 	}
+	else
+	{
+		Int32Operand const *ptr = reinterpret_cast<const Int32Operand*>(&rhs);
+		if ( (this->getVal() == -FLT_MAX && ptr->getVal() == -1) || (ptr->getVal() == -FLT_MAX && this->getVal() == -1) )
+			throw OverFlow_error("Float overflow\n");
+		if (ptr->getVal() == 0 || this->getVal() == 0)
+			throw DivByZero_error("Can not divide by Zero\n");
+		val = static_cast<double>(this->getVal()) / ptr->getVal();
+		sstr << val;
+		return(new floatOperand(type, sstr.str()));
+	}
 	return(NULL);
 }
 
@@ -177,9 +220,9 @@ IOperand const * floatOperand::operator%( IOperand const & rhs ) const
 	std::stringstream sstr;
 	eOperandType type;
 	type = (this->getType() < rhs.getType()) ? rhs.getType() : this->getType();
+	double val;
 	if (dynamic_cast<const floatOperand*>(&rhs) || dynamic_cast<const doubleOperand*>(&rhs))
 	{
-		double val;
 		if (dynamic_cast<const floatOperand*>(&rhs))
 		{
 			floatOperand const *ptr = reinterpret_cast<const floatOperand*>(&rhs);
@@ -202,6 +245,17 @@ IOperand const * floatOperand::operator%( IOperand const & rhs ) const
 			sstr << val;
 			return(new doubleOperand(type, sstr.str()));
 		}
+	}
+	else
+	{
+		Int32Operand const *ptr = reinterpret_cast<const Int32Operand*>(&rhs);
+		if ( (this->getVal() == -FLT_MAX && ptr->getVal() == -1) || (ptr->getVal() == -FLT_MAX && this->getVal() == -1) )
+			throw OverFlow_error("Float overflow\n");
+		if (ptr->getVal() == 0 || this->getVal() == 0)
+			throw DivByZero_error("Can not divide by Zero\n");
+		val = fmod(static_cast<double>(this->getVal()), ptr->getVal());
+		sstr << val;
+		return(new floatOperand(type, sstr.str()));
 	}
 	return(NULL);
 }
