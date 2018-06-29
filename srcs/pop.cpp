@@ -8,7 +8,9 @@ void	parse_pop(std::vector<std::string> &words, int line_nr, std::stringstream &
 		{
 			if (the_stack->getStackSize() == 0)
 			{
-				throw Stack_error("Stack is empty cant POP");
+				std::stringstream str;
+				str << "Stack is empty can not POP, Line: " << line_nr;
+				throw Stack_error(str.str());
 			}
 			the_stack->removeFromStack();
 		}
@@ -19,7 +21,9 @@ void	parse_pop(std::vector<std::string> &words, int line_nr, std::stringstream &
 		{
 			if (the_stack->getStackSize() == 0)
 			{
-				throw Stack_error("Stack is empty cant POP");
+				std::stringstream str;
+				str << "Stack size to small for ADD, Line: " << line_nr;
+				throw Stack_error(str.str());
 			}
 			the_stack->removeFromStack();
 		}

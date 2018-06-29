@@ -6,8 +6,6 @@ void	parse_print(std::vector<std::string> &words, int line_nr, std::stringstream
 	{
 		if (FILE_CHECKED)
 		{
-			// handle print here
-			std::cout << "PRINT - " << words[0] << std::endl;
 			if (the_stack->getTopOfStack()->val->getType() == eOperandType::int8)
 			{
 				const Int8Operand *val = reinterpret_cast<const Int8Operand *>(the_stack->getTopOfStack()->val);
@@ -15,7 +13,9 @@ void	parse_print(std::vector<std::string> &words, int line_nr, std::stringstream
 			}
 			else
 			{
-				throw Stack_error("Value on top of the stack is not of type INT8");
+				std::stringstream str;
+				str << "Value on top of the stack is not of type INT8, can not PRINT, Line: " << line_nr;
+				throw Stack_error(str.str());
 			}
 		}
 	}
@@ -23,8 +23,17 @@ void	parse_print(std::vector<std::string> &words, int line_nr, std::stringstream
 	{
 		if (FILE_CHECKED)
 		{
-			// handle print here
-			std::cout << "comment - " << words[0] << std::endl;
+			if (the_stack->getTopOfStack()->val->getType() == eOperandType::int8)
+			{
+				const Int8Operand *val = reinterpret_cast<const Int8Operand *>(the_stack->getTopOfStack()->val);
+				val->putChar();
+			}
+			else
+			{
+				std::stringstream str;
+				str << "Value on top of the stack is not of type INT8, can not PRINT, Line: " << line_nr;
+				throw Stack_error(str.str());
+			}
 		}
 	}
 	else

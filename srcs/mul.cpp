@@ -8,12 +8,18 @@ void	parse_mul(std::vector<std::string> &words, int line_nr, std::stringstream &
 		{
 			if (the_stack->getStackSize() < 2)
 			{
-				throw Stack_error("Stack size to small for MUL");
+				std::stringstream str;
+				str << "Stack size to small for MUL, Line: " << line_nr;
+				throw Stack_error(str.str());
 			}
 			t_stack *result = new t_stack;
 			result->next = NULL;
 			result->val = *(the_stack->getTopOfStack()->val) * *(the_stack->getSecondItemOfStack()->val);
-			std::cout << "============================================ result " << result->val->toString() << std::endl;
+			if (VERBOSE == true)
+			{
+				std::stringstream str;
+				std::cout << blue << the_stack->getTopOfStack()->val->toString() << " * " << the_stack->getSecondItemOfStack()->val->toString() << normal << std::endl;
+			}
 			the_stack->removeFromStack();
 			the_stack->removeFromStack();
 			the_stack->addToStack(result);
@@ -25,24 +31,18 @@ void	parse_mul(std::vector<std::string> &words, int line_nr, std::stringstream &
 		{
 			if (the_stack->getStackSize() < 2)
 			{
-				throw Stack_error("Stack size to small for MUL");
+				std::stringstream str;
+				str << "Stack size to small for MUL, Line: " << line_nr;
+				throw Stack_error(str.str());
 			}
 			t_stack *result = new t_stack;
 			result->next = NULL;
-			std::cout << "here" << std::endl;
-			if (dynamic_cast<const floatOperand *>( the_stack->getTopOfStack()->val ) || dynamic_cast<const doubleOperand *>( the_stack->getTopOfStack()->val ) )
+			result->val = *(the_stack->getTopOfStack()->val) * *(the_stack->getSecondItemOfStack()->val);
+			if (VERBOSE == true)
 			{
-				std::cout << "here here" << std::endl;
-
-				result->val = reinterpret_cast<const doubleOperand &>(*(the_stack->getTopOfStack()->val)) * *(the_stack->getSecondItemOfStack()->val);
+				std::stringstream str;
+				std::cout << blue << the_stack->getTopOfStack()->val->toString() << " * " << the_stack->getSecondItemOfStack()->val->toString() << normal << std::endl;
 			}
-			else
-			{
-				std::cout << "here here here" << std::endl;
-				result->val = reinterpret_cast<const Int32Operand &>(the_stack->getTopOfStack()->val) * *(the_stack->getSecondItemOfStack()->val);
-			}
-			std::cout << "here" << std::endl;
-			//std::cout << "============================================ result " << result->val->getType() << std::endl;
 			the_stack->removeFromStack();
 			the_stack->removeFromStack();
 			the_stack->addToStack(result);

@@ -1,5 +1,6 @@
 
 #include "IOperand.hpp"
+#include "parse.hpp"
 
 Int8Operand::Int8Operand( void )
 {
@@ -62,7 +63,6 @@ IOperand const * Int8Operand::operator+( IOperand const & rhs ) const
 			doubleOperand const *ptr = reinterpret_cast<const doubleOperand*>(&rhs);
 			if ((this->getVal() > 0 && ptr->getVal() > DBL_MAX - this->getVal()) || (this->getVal() < 0 && ptr->getVal() < -DBL_MAX - this->getVal()))
 				throw OverFlow_error("Double Overflow\n");
-			std::cout << "DBL_MAX : " << DBL_MAX << std::endl;
 			val = static_cast<double>(this->getVal()) + ptr->getVal();
 			sstr << val;
 			return(new doubleOperand(type, sstr.str()));
@@ -77,8 +77,6 @@ IOperand const * Int8Operand::operator+( IOperand const & rhs ) const
 		{
 			
 			Int8Operand const *ptr = reinterpret_cast<const Int8Operand*>(&rhs);
-			val = this->getVal() + ptr->getVal();
-			std::cout << "-----------------------------" << static_cast<int32_t>(val) << std::endl;
 			if ((this->getVal() > 0 && ptr->getVal() > INT8_MAX - this->getVal()) || (this->getVal() < 0 && ptr->getVal() < INT8_MIN - this->getVal()))
 				throw OverFlow_error("Int8 Overflow\n");
 			val = this->getVal() + ptr->getVal();
@@ -129,7 +127,6 @@ IOperand const * Int8Operand::operator-( IOperand const & rhs ) const
 			doubleOperand const *ptr = reinterpret_cast<const doubleOperand*>(&rhs);
 			if ((this->getVal() < 0 && ptr->getVal() > DBL_MAX - this->getVal()) || (this->getVal() > 0 && ptr->getVal() < -DBL_MAX + this->getVal()))
 				throw OverFlow_error("Double Overflow\n");
-			std::cout << "DBL_MAX : " << DBL_MAX << std::endl;
 			val = static_cast<double>(this->getVal()) - ptr->getVal();
 			sstr << val;
 			return(new doubleOperand(type, sstr.str()));
@@ -137,10 +134,10 @@ IOperand const * Int8Operand::operator-( IOperand const & rhs ) const
 	}
 	else
 	{
-		Int32Operand const *ptr = reinterpret_cast<const Int32Operand*>(&rhs);
 		int val;
 		if (type == int8)
 		{
+			Int8Operand const *ptr = reinterpret_cast<const Int8Operand*>(&rhs);
 			if ((this->getVal() < 0 && ptr->getVal() > INT8_MAX + this->getVal()) || (this->getVal() > 0 && ptr->getVal() < INT8_MIN + this->getVal()))
 				throw OverFlow_error("Int8 Overflow\n");
 			val = this->getVal() - ptr->getVal();
@@ -149,6 +146,7 @@ IOperand const * Int8Operand::operator-( IOperand const & rhs ) const
 		}
 		else if (type == int16)
 		{
+			Int16Operand const *ptr = reinterpret_cast<const Int16Operand*>(&rhs);
 			if ((this->getVal() < 0 && ptr->getVal() > INT16_MAX + this->getVal()) || (this->getVal() > 0 && ptr->getVal() < INT16_MIN + this->getVal()))
 				throw OverFlow_error("Int16 Overflow\n");
 			val = this->getVal() - ptr->getVal();
@@ -157,6 +155,7 @@ IOperand const * Int8Operand::operator-( IOperand const & rhs ) const
 		}
 		else
 		{
+			Int32Operand const *ptr = reinterpret_cast<const Int32Operand*>(&rhs);
 			if ((this->getVal() < 0 && ptr->getVal() > INT32_MAX + this->getVal()) || (this->getVal() > 0 && ptr->getVal() < INT32_MIN + this->getVal()))
 				throw OverFlow_error("Int32 Overflow\n");
 			val = this->getVal() - ptr->getVal();
@@ -191,7 +190,6 @@ IOperand const * Int8Operand::operator*( IOperand const & rhs ) const
 			if ( CHECK1(this->getVal(), ptr->getVal(), DBL_MAX) || CHECK2(this->getVal(), ptr->getVal(), -DBL_MAX) || 
 				CHECK3(this->getVal(), ptr->getVal(), DBL_MAX) || CHECK4(this->getVal(), ptr->getVal(), -DBL_MAX) )
 				throw OverFlow_error("Double Overflow\n");
-			std::cout << "DBL_MAX : " << DBL_MAX << std::endl;
 			val = static_cast<double>(this->getVal()) * ptr->getVal();
 			sstr << val;
 			return(new doubleOperand(type, sstr.str()));
@@ -199,10 +197,10 @@ IOperand const * Int8Operand::operator*( IOperand const & rhs ) const
 	}
 	else
 	{
-		Int32Operand const *ptr = reinterpret_cast<const Int32Operand*>(&rhs);
 		int val;
 		if (type == int8)
 		{
+			Int8Operand const *ptr = reinterpret_cast<const Int8Operand*>(&rhs);
 			if ( CHECK1(this->getVal(), ptr->getVal(), INT8_MAX) || CHECK2(this->getVal(), ptr->getVal(), INT8_MIN) || 
 				CHECK3(this->getVal(), ptr->getVal(), INT8_MAX) || CHECK4(this->getVal(), ptr->getVal(), INT8_MIN) )
 				throw OverFlow_error("Int8 Overflow\n");
@@ -212,6 +210,7 @@ IOperand const * Int8Operand::operator*( IOperand const & rhs ) const
 		}
 		else if (type == int16)
 		{
+			Int16Operand const *ptr = reinterpret_cast<const Int16Operand*>(&rhs);
 			if ( CHECK1(this->getVal(), ptr->getVal(), INT16_MAX) || CHECK2(this->getVal(), ptr->getVal(), INT16_MIN) || 
 				CHECK3(this->getVal(), ptr->getVal(), INT16_MAX) || CHECK4(this->getVal(), ptr->getVal(), INT16_MIN) )
 				throw OverFlow_error("Int16 Overflow\n");
@@ -221,6 +220,7 @@ IOperand const * Int8Operand::operator*( IOperand const & rhs ) const
 		}
 		else
 		{
+			Int32Operand const *ptr = reinterpret_cast<const Int32Operand*>(&rhs);
 			if ( CHECK1(this->getVal(), ptr->getVal(), INT32_MAX) || CHECK2(this->getVal(), ptr->getVal(), INT32_MIN) || 
 				CHECK3(this->getVal(), ptr->getVal(), INT32_MAX) || CHECK4(this->getVal(), ptr->getVal(), INT32_MIN) )
 				throw OverFlow_error("Int32 Overflow\n");
@@ -265,11 +265,11 @@ IOperand const * Int8Operand::operator/( IOperand const & rhs ) const
 	}
 	else
 	{
-		Int32Operand const *ptr = reinterpret_cast<const Int32Operand*>(&rhs);
-		if (ptr->getVal() == 0 || this->getVal() == 0)
-				throw DivByZero_error("Can not divide by Zero\n");
 		if (type == int8)
 		{
+			Int8Operand const *ptr = reinterpret_cast<const Int8Operand*>(&rhs);
+			if (ptr->getVal() == 0 || this->getVal() == 0)
+				throw DivByZero_error("Can not divide by Zero\n");
 			if ( (this->getVal() == INT8_MIN && ptr->getVal() == -1) || (ptr->getVal() == INT8_MIN && this->getVal() == -1) )
 				throw OverFlow_error("INT8 overflow\n");
 			int val = this->getVal() / ptr->getVal();
@@ -279,6 +279,9 @@ IOperand const * Int8Operand::operator/( IOperand const & rhs ) const
 		}
 		else if (type == int16)
 		{
+			Int16Operand const *ptr = reinterpret_cast<const Int16Operand*>(&rhs);
+			if (ptr->getVal() == 0 || this->getVal() == 0)
+				throw DivByZero_error("Can not divide by Zero\n");
 			if (ptr->getVal() == INT16_MIN && this->getVal() == -1)
 				throw OverFlow_error("INT16 overflow\n");
 			int val = this->getVal() / ptr->getVal();
@@ -288,6 +291,9 @@ IOperand const * Int8Operand::operator/( IOperand const & rhs ) const
 		}
 		else
 		{
+			Int32Operand const *ptr = reinterpret_cast<const Int32Operand*>(&rhs);
+			if (ptr->getVal() == 0 || this->getVal() == 0)
+				throw DivByZero_error("Can not divide by Zero\n");
 			if (ptr->getVal() == INT32_MIN && this->getVal() == -1)
 				throw OverFlow_error("INT32 overflow\n");
 			int val = this->getVal() / ptr->getVal();
@@ -335,11 +341,11 @@ IOperand const * Int8Operand::operator%( IOperand const & rhs ) const
 	}
 	else
 	{
-		Int32Operand const *ptr = reinterpret_cast<const Int32Operand*>(&rhs);
-		if (ptr->getVal() == 0 || this->getVal() == 0)
-				throw DivByZero_error("Can not divide by Zero\n");
 		if (type == int8)
 		{
+			Int8Operand const *ptr = reinterpret_cast<const Int8Operand*>(&rhs);
+			if (ptr->getVal() == 0 || this->getVal() == 0)
+				throw DivByZero_error("Can not divide by Zero\n");
 			if ( (this->getVal() == INT8_MIN && ptr->getVal() == -1) || (ptr->getVal() == INT8_MIN && this->getVal() == -1) )
 				throw OverFlow_error("INT8 overflow\n");
 			int val = this->getVal() % ptr->getVal();
@@ -349,6 +355,9 @@ IOperand const * Int8Operand::operator%( IOperand const & rhs ) const
 		}
 		else if (type == int16)
 		{
+			Int16Operand const *ptr = reinterpret_cast<const Int16Operand*>(&rhs);
+			if (ptr->getVal() == 0 || this->getVal() == 0)
+				throw DivByZero_error("Can not divide by Zero\n");
 			if (ptr->getVal() == INT16_MIN && this->getVal() == -1)
 				throw OverFlow_error("INT16 overflow\n");
 			int val = this->getVal() % ptr->getVal();
@@ -358,6 +367,9 @@ IOperand const * Int8Operand::operator%( IOperand const & rhs ) const
 		}
 		else
 		{
+			Int32Operand const *ptr = reinterpret_cast<const Int32Operand*>(&rhs);
+			if (ptr->getVal() == 0 || this->getVal() == 0)
+				throw DivByZero_error("Can not divide by Zero\n");
 			if (ptr->getVal() == INT32_MIN && this->getVal() == -1)
 				throw OverFlow_error("INT32 overflow\n");
 			int val = this->getVal() % ptr->getVal();
@@ -389,5 +401,5 @@ int8_t	Int8Operand::getVal( void ) const
 
 void Int8Operand::putChar( void ) const
 {
-	std::cout << this->_val.in8 << std::endl;
+	std::cout << green << this->_val.in8 << normal << std::endl;
 }

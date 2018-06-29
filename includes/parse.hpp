@@ -12,6 +12,13 @@
 
 extern bool FILE_CHECKED;
 extern bool EXIT;
+extern bool VERBOSE;
+extern char red[];
+extern char blue[];
+extern char green[];
+extern char normal[];
+
+
 
 /*
 	parse.cpp

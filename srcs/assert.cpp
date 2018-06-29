@@ -6,8 +6,6 @@ void	parse_assert(std::vector<std::string> &words, int line_nr, std::stringstrea
 	{
 		if (FILE_CHECKED)
 		{
-			// handle assert command here
-			std::cout << "ASSERT - "<< words[0] << std::endl;
 			if (the_stack->getTopOfStack()->val->getType() == get_type(words[1]) )
 			{
 				std::size_t pos_s = words[1].find("(");
@@ -16,6 +14,11 @@ void	parse_assert(std::vector<std::string> &words, int line_nr, std::stringstrea
 				if (the_stack->getTopOfStack()->val->toString() != str)
 				{
 					throw Stack_error("Assert value and value on top of the stack do not match");
+				}
+				if (VERBOSE == true)
+				{
+					std::stringstream str;
+					std::cout << blue << "Asserted that the value " <<the_stack->getTopOfStack()->val->toString() << " is the same and of the same type " << normal << std::endl;
 				}
 			}
 			else
@@ -28,8 +31,6 @@ void	parse_assert(std::vector<std::string> &words, int line_nr, std::stringstrea
 	{
 		if (FILE_CHECKED)
 		{
-			// handle assert command here
-			std::cout << "comment - " << words[0] << std::endl;
 			if (the_stack->getTopOfStack()->val->getType() == get_type(words[1]) )
 			{
 				std::size_t pos_s = words[1].find("(");
@@ -38,6 +39,11 @@ void	parse_assert(std::vector<std::string> &words, int line_nr, std::stringstrea
 				if (the_stack->getTopOfStack()->val->toString() != str)
 				{
 					throw Stack_error("Assert value and value on top of the stack do not match");
+				}
+				if (VERBOSE == true)
+				{
+					std::stringstream str;
+					std::cout << blue << "Asserted that the value " <<the_stack->getTopOfStack()->val->toString() << " is the same and of the same type " << normal << std::endl;
 				}
 			}
 			else

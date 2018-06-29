@@ -1,5 +1,6 @@
 
 #include "Stack.hpp"
+#include "parse.hpp"
 
 Stack::Stack( void )
 {
@@ -46,7 +47,6 @@ void	Stack::addToStack(t_stack *item)
 	this->_top_of_stack = item;
 	if (this->_top_of_stack)
 		this->_size_of_stack++;
-	std::cout << "added to stack, stack size now : " << this->_size_of_stack <<std::endl;
 }
 
 void	Stack::removeFromStack( void )
@@ -54,12 +54,18 @@ void	Stack::removeFromStack( void )
 	t_stack *temp;
 	if (this->_top_of_stack)
 	{
+		if (VERBOSE == true)
+		{
+			std::stringstream str;
+			std::cout << blue << getTopOfStack()->val->toString() << " Popped from stack " << normal << std::endl;
+		}
 		temp = this->_top_of_stack->next;
 		delete this->_top_of_stack->val;
 		this->_top_of_stack->val = NULL;
 		delete this->_top_of_stack;
 		this->_top_of_stack = temp;
 		this->_size_of_stack--;
+		
 	}
 	else
 	{
@@ -72,18 +78,27 @@ void	Stack::dumpStack( void )
 {
 	t_stack *lst;
 	lst = this->_top_of_stack;
-	std::cout << "**************** stack Dump *************" << std::endl;
+
+	if (VERBOSE == true)
+	{
+		std::stringstream str;
+		std::cout << blue << " ************************ STACK DUMP ************************ " << normal << std::endl;
+	}
 	while (lst)
 	{
 		if (lst->val)
 		{
 			std::string	const *temp = &lst->val->toString();
-			std::cout << *temp << std::endl;
+			std::cout << green << *temp << normal << std::endl;
 			delete temp;
 		}
 		lst = lst->next;
 	}
-	std::cout << "**************** ********* *************" << std::endl;
+	if (VERBOSE == true)
+	{
+		std::stringstream str;
+		std::cout << blue << " ************************ *********** ************************ " << normal << std::endl << std::endl;
+	}
 }
 
 int		Stack::getStackSize( void )

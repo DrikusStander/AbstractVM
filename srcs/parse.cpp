@@ -3,7 +3,11 @@
 
 bool FILE_CHECKED = false;
 bool EXIT = false;
-
+bool VERBOSE = false;
+char blue[] = { 0x1b, '[', '0', ';', '3', '4', 'm', 0 };
+char red[] = { 0x1b, '[', '0', ';', '3', '1', 'm', 0 };
+char green[] = { 0x1b, '[', '0', ';', '3', '2', 'm', 0 };
+char normal[] = { 0x1b, '[', '0', ';', '3', '9', 'm', 0 };
 
 std::string trim(std::string &str)
 {
@@ -38,10 +42,10 @@ void	readFile(std::string fileName)
 	std::string line;
 	std::vector<std::string> words;
 	std::stringstream errors;
-	int line_nr = 1;
 	Stack the_stack;
 	
 	read_file:
+	int line_nr = 1;
 	ifs.open(fileName, std::ifstream::in);
 	while (getline(ifs, line))
 	{
@@ -74,6 +78,8 @@ void	readFile(std::string fileName)
 				parse_print(words, line_nr, errors, &the_stack);
 			else if (words[0] == "exit")
 				parse_exit(words, line_nr, errors, &the_stack);
+			else if (words[0] == "verbose")
+				VERBOSE = true;
 			else
 				errors << "Invalid Command on line " << line_nr << std::endl;
 		}
