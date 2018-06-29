@@ -46,7 +46,14 @@ void	Stack::addToStack(t_stack *item)
 	}
 	this->_top_of_stack = item;
 	if (this->_top_of_stack)
+	{
+		if (VERBOSE == true)
+		{
+			std::stringstream str;
+			std::cout << blue << this->getTopOfStack()->val->toString() << " Pushed to the stack" << normal << std::endl;
+		}
 		this->_size_of_stack++;
+	}
 }
 
 void	Stack::removeFromStack( void )
